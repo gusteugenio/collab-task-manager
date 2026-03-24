@@ -248,10 +248,10 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 ## ✅ Checklist de Desenvolvimento
 
 ### Backend & Banco de Dados
-- [ ] Docker e Docker Compose (configurar apenas banco Postgres e Jaeger para ambiente local)
-- [ ] Configurar Fastify com TypeScript
-- [ ] Configurar Prisma e PostgreSQL
-- [ ] Definir e criar modelagem do banco (User, Task, Category)
+- [x] Docker e Docker Compose (configurar apenas banco Postgres e Jaeger para ambiente local)
+- [x] Configurar Fastify com TypeScript
+- [x] Configurar Prisma e PostgreSQL
+- [x] Definir e criar modelagem do banco (User, Task, Category)
 - [ ] Criar autenticação JWT com bcrypt
 - [ ] CRUD completo de usuários
 - [ ] CRUD completo de tarefas
@@ -264,7 +264,6 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [ ] Swagger/OpenAPI documentação
 
 ### Frontend
-- [ ] Docker e Docker Compose (configurar ambiente para frontend)
 - [ ] Setup Vue 3 + Vite + TypeScript
 - [ ] Configurar ShadCN-Vue + Tailwind
 - [ ] Pinia stores (auth, tasks, ui)

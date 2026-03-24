@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum para Status da Tarefa
+enum TaskStatus {
+  TODO
+  DOING
+  DONE
+}
+
+// Enum para Permissões
+enum Permission {
+  EDIT
+  MANAGE
+}
+
+model User {
+  id             String             @id @default(uuid())
+  name           String
+  email          String             @unique
+  password       String
+  createdAt      DateTime           @default(now())
+  
+  ownedTasks     Task[]             @relation("TaskOwner")
+  sharedTasks    TaskCollaborator[] 
+
+  @@index([email])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  tasks     Task[]
+}
+
+model Task {
+  id          String             @id @default(uuid())
+  title       String
+  description String?
+  status      TaskStatus         @default(TODO)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  completedAt DateTime?
+  
+  categoryId  String?
+  category    Category?          @relation(fields: [categoryId], references: [id])
+
+  ownerId     String
+  owner       User               @relation("TaskOwner", fields: [ownerId], references: [id])
+  
+  collaborators TaskCollaborator[]
+
+  @@index([categoryId])
+}
+
+model TaskCollaborator {
+  taskId    String
+  userId    String
+  addedAt   DateTime @default(now())
+  permission Permission  @default(EDIT)
+
+  task      Task     @relation(fields: [taskId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@id([taskId, userId])
+}
