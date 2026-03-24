@@ -1,7 +1,7 @@
 # 📋 Collab Task Manager
 
 <p align="center">
-  <img src="https://assets-v2.lottiefiles.com/a/595b144a-117d-11ee-a0f0-97aecee50a7d/7ohzFxqXcT.gif" width="200"/>
+  <img src="https://github.com/user-attachments/assets/212d61f8-48d2-4b59-9dad-d69f96491967" width="200" alt="gif-checklist" />
 </p>
 
 Aplicação fullstack moderna de gerenciamento de tarefas colaborativas, desenvolvida para demonstrar arquitetura serverless, observabilidade e boas práticas de desenvolvimento.
