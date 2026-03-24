@@ -19,53 +19,42 @@ TODO: adicionar URL do frontend e da API
 ## 🛠️ Tecnologias Utilizadas
 
 ### Frontend (Interface do usuário)
-<div align="center">
-  <img src="https://img.shields.io/badge/Vue.js_3-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/ShadCN--Vue-000000?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
-  <img src="https://img.shields.io/badge/Axios-671DDF?style=for-the-badge&logo=axios&logoColor=white" />
-  <img src="https://img.shields.io/badge/Pinia-FCD34D?style=for-the-badge" />
-</div>
+- ![Vue.js 3](https://img.shields.io/badge/Vue.js_3-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white) **Vue.js 3**
+- ![ShadCN Vue](https://img.shields.io/badge/ShadCN--Vue-000000?style=for-the-badge) **ShadCN Vue**
+- ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) **Tailwind CSS**
+- ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) **TypeScript**
+- ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) **Vite**
+- ![Axios](https://img.shields.io/badge/Axios-671DDF?style=for-the-badge&logo=axios&logoColor=white) **Axios**
+- ![Pinia](https://img.shields.io/badge/Pinia-FCD34D?style=for-the-badge) **Pinia**
 
 ### Backend (Servidor)
-<div align="center">
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" />
-  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white" />
-  <img src="https://img.shields.io/badge/bcrypt-003366?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/ESLint-4B3B8C?style=for-the-badge&logo=eslint&logoColor=white" />
-  <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" />
-</div>
+- ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white) **Node.js**
+- ![Fastify](https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white) **Fastify**
+- ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) **TypeScript**
+- ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white) **Prisma**
+- ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white) **JWT**
+- ![bcrypt](https://img.shields.io/badge/bcrypt-003366?style=for-the-badge) **bcrypt**
+- ![Zod](https://img.shields.io/badge/Zod-3068B7?style=for-the-badge&logo=zod&logoColor=white) **Zod**
+- ![ESLint](https://img.shields.io/badge/ESLint-4B3B8C?style=for-the-badge&logo=eslint&logoColor=white) **ESLint**
+- ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black) **Prettier**
 
 ### Banco de Dados
-<div align="center">
-  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" />
-</div>
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white) **PostgreSQL**
 
 ### Testes
-<div align="center">
-  <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" />
-</div>
+- ![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white) **Jest**
 
 ### Monitoramento
-<div align="center">
-  <img src="https://img.shields.io/badge/OpenTelemetry-000000?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Jaeger-00B4E0?style=for-the-badge&logo=jaeger&logoColor=white" />
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
-</div>
+- ![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-000000?style=for-the-badge) **OpenTelemetry**
+- ![Jaeger](https://img.shields.io/badge/Jaeger-00B4E0?style=for-the-badge&logo=jaeger&logoColor=white) **Jaeger**
+- ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) **Docker**
 
 ### Deploy & Infraestrutura
-<div align="center">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
-  <img src="https://img.shields.io/badge/AWS_Lambda-FF9900?style=for-the-badge&logo=aws-lambda&logoColor=white" />
-  <img src="https://img.shields.io/badge/AWS_API_Gateway-FF9900?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/AWS_RDS-FF9900?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Serverless-FD5750?style=for-the-badge&logo=serverless&logoColor=white" />
-</div>
+- ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) **Docker**
+- ![AWS Lambda](https://img.shields.io/badge/AWS_Lambda-FF9900?style=for-the-badge&logo=aws-lambda&logoColor=white) **AWS Lambda**
+- ![AWS API Gateway](https://img.shields.io/badge/AWS_API_Gateway-FF9900?style=for-the-badge) **AWS API Gateway**
+- ![AWS RDS](https://img.shields.io/badge/AWS_RDS-FF9900?style=for-the-badge) **AWS RDS**
+- ![Serverless](https://img.shields.io/badge/Serverless-FD5750?style=for-the-badge&logo=serverless&logoColor=white) **Serverless Framework**
 
 ---
 
@@ -252,7 +241,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Configurar Fastify com TypeScript
 - [x] Configurar Prisma e PostgreSQL
 - [x] Definir e criar modelagem do banco (User, Task, Category)
-- [ ] Criar autenticação JWT com bcrypt
+- [x] Criar autenticação JWT com bcrypt
 - [ ] CRUD completo de usuários
 - [ ] CRUD completo de tarefas
 - [ ] Compartilhamento e colaboração de tarefas
