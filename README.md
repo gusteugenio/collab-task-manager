@@ -315,7 +315,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Configurar ShadCN-Vue + Tailwind
 - [x] Configura Axios
 - [x] Pinia stores (auth, tasks, ui)
-- [ ] Configuração do Vue Router (Rotas e Guards de proteção)
+- [x] Configuração do Vue Router (Rotas e Guards de proteção)
 - [ ] Páginas: Login, Registro
 - [ ] Páginas de Dashboard (Relatórios simples com gráficos de progresso)
 - [ ] Listagem e CRUD de tarefas
