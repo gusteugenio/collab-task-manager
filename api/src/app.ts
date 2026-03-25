@@ -1,5 +1,8 @@
 import Fastify from 'fastify'
 import fastifyJwt from '@fastify/jwt'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
 import 'dotenv/config'
 import { authRoutes } from './routes/auth.routes.js'
@@ -9,6 +12,26 @@ import { categoryRoutes } from './routes/category.routes.js'
 import { reportRoutes } from './routes/report.routes.js'
 
 export const app = Fastify({ logger: true })
+
+// Configurações do Swagger
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
+
+app.register(fastifySwagger, {
+  openapi: {
+    info: { title: 'Collab Task Manager API', version: '1.0.0' },
+    components: {
+      securitySchemes: {
+        bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
+      }
+    }
+  },
+  transform: jsonSchemaTransform,
+})
+
+app.register(fastifySwaggerUi, {
+  routePrefix: '/documentation',
+})
 
 if (!process.env.JWT_SECRET) {
   throw new Error('JWT_SECRET não definida')
