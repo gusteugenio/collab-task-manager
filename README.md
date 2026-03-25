@@ -265,7 +265,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Filtros, busca e ordenação
 - [x] Endpoints otimizados e leves para suportar requisições de Short Polling
 - [x] Relatórios simples de progresso
-- [ ] Configurar OpenTelemetry + Jaeger
+- [x] Configurar OpenTelemetry + Jaeger
 - [ ] Swagger/OpenAPI documentação
 
 ### Testes

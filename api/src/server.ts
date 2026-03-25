@@ -1,9 +1,10 @@
+import { sdk } from './tracing.js'
+sdk.start()
+
 import { app } from './app.js'
 
 const start = async () => {
   try {
-    await app.ready()
-
     await app.listen({
       port: 3333,
       host: '0.0.0.0'
