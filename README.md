@@ -242,7 +242,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Configurar Prisma e PostgreSQL
 - [x] Definir e criar modelagem do banco (User, Task, Category)
 - [x] Criar autenticação JWT com bcrypt
-- [ ] CRUD completo de usuários
+- [x] Endpoint para Listagem de usuários (para colaboração)
 - [ ] CRUD completo de tarefas
 - [ ] Compartilhamento e colaboração de tarefas
 - [ ] Filtros, busca e ordenação

@@ -3,6 +3,7 @@ import fastifyJwt from '@fastify/jwt'
 import { ZodError } from 'zod'
 import 'dotenv/config'
 import { authRoutes } from './routes/auth.routes.js'
+import { userRoutes } from './routes/user.routes.js'
 
 export const app = Fastify({ logger: true })
 
@@ -17,6 +18,9 @@ app.register(fastifyJwt, {
 
 // Registra as rotas de autenticação
 app.register(authRoutes, { prefix: '/auth' })
+
+// Registra as rotas de usuário
+app.register(userRoutes, { prefix: '/users' })
 
 // Tratamento global de erros
 app.setErrorHandler((error, request, reply) => {

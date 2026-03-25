@@ -4,14 +4,18 @@ import { AuthService } from '../services/auth.service.js'
 
 
 export class AuthController {
+  private authService: AuthService
+  
+  constructor() {
+    this.authService = new AuthService()
+  }
 
   // Registra usuário
   async register(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { name, email, password } = registerBodySchema.parse(request.body)
       
-      const authService = new AuthService()
-      const user = await authService.registerUser({ name, email, password })
+      const user = await this.authService.registerUser({ name, email, password })
 
       return reply.status(201).send({
         message: 'Usuário criado com sucesso!',
@@ -30,8 +34,7 @@ export class AuthController {
     try {
       const { email, password } = loginBodySchema.parse(request.body)
       
-      const authService = new AuthService()
-      const user = await authService.login({ email, password })
+      const user = await this.authService.login({ email, password })
 
       const token = request.server.jwt.sign(
         { name: user.name },
