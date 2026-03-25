@@ -2,6 +2,7 @@ import Fastify from 'fastify'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
+import cors from '@fastify/cors'
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
 import 'dotenv/config'
@@ -12,6 +13,13 @@ import { categoryRoutes } from './routes/category.routes.js'
 import { reportRoutes } from './routes/report.routes.js'
 
 export const app = Fastify({ logger: true })
+
+const frontendUrl = process.env.FRONTEND_URL
+
+app.register(cors, {
+  origin: frontendUrl,
+  credentials: true,
+})
 
 // Configurações do Swagger
 app.setValidatorCompiler(validatorCompiler)
