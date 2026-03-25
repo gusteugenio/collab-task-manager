@@ -64,4 +64,26 @@ export class TaskRepository {
       data: { taskId, userId }
     })
   }
+
+  // Busca apenas as tarefas atualizadas após uma data específica
+  async findUpdatedSince(userId: string, lastSync: Date) {
+    return prisma.task.findMany({
+      where: {
+        OR: [
+          { ownerId: userId },
+          { collaborators: { some: { userId } } }
+        ],
+        updatedAt: {
+          // greater than
+          gt: lastSync
+        }
+      },
+      include: {
+        category: true,
+        collaborators: {
+          include: { user: { select: { id: true, name: true, email: true } } }
+        }
+      }
+    })
+  }
 }

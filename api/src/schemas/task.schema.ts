@@ -23,3 +23,7 @@ export const getTasksQuerySchema = z.object({
   search: z.string().optional(),
   order: z.enum(['asc', 'desc']).optional().default('desc'),
 })
+
+export const syncTasksQuerySchema = z.object({
+  lastSync: z.string().datetime('Formato de data inválido (use ISO 8601)')
+})

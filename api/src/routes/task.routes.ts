@@ -8,6 +8,10 @@ export async function taskRoutes(app: FastifyInstance) {
   // Todas as rotas de tarefas precisam de autenticação
   app.addHook('onRequest', authenticate)
 
+  // Rota para sincronização de tasks
+  app.get('/sync', taskController.sync.bind(taskController))
+
+  // Rotas de CRUD
   app.post('/', taskController.create.bind(taskController))
   app.get('/', taskController.list.bind(taskController))
   app.put('/:id', taskController.update.bind(taskController))

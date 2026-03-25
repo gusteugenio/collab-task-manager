@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { createTaskSchema, getTasksQuerySchema, shareTaskSchema, updateTaskSchema } from '../schemas/task.schema.js'
+import { createTaskSchema, getTasksQuerySchema, shareTaskSchema, syncTasksQuerySchema, updateTaskSchema } from '../schemas/task.schema.js'
 import { TaskService } from '../services/task.service.js'
 
 export class TaskController {
@@ -87,6 +87,20 @@ export class TaskController {
       if (error.message.includes('já compartilhada')) {
         return reply.status(400).send({ error: error.message })
       }
+      throw error
+    }
+  }
+
+  // Sincroniza tasks atualizadas
+  async sync(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const userId = (request.user as any).sub
+      const { lastSync } = syncTasksQuerySchema.parse(request.query)
+      
+      const updatedTasks = await this.taskService.getSyncTasks(userId, lastSync)
+      
+      return reply.status(200).send({ tasks: updatedTasks })
+    } catch (error: any) {
       throw error
     }
   }

@@ -96,4 +96,16 @@ export class TaskService {
 
     return this.taskRepository.addCollaborator(taskId, targetUserId)
   }
+
+  // Retorna tasks sincronizadas
+  async getSyncTasks(userId: string, lastSyncDate: string) {
+    const lastSync = new Date(lastSyncDate)
+    const tasks = await this.taskRepository.findUpdatedSince(userId, lastSync)
+
+    return tasks.map(({ collaborators, category, ...task }) => ({
+      ...task,
+      category: category ? { id: category.id, name: category.name } : null,
+      collaborators: collaborators.map(c => c.user)
+    }))
+  }
 }

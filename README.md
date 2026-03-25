@@ -220,7 +220,7 @@ Os relatórios incluem:
 
 3. **Colaboração**:
   - Número de tarefas compartilhadas.
-  - Usuários mais ativos (baseado em tarefas criadas ou atualizadas).
+  - Usuários mais ativos (baseado em tarefas criadas).
 
 5. **Resumo Diário/Semanal**:
   - Tarefas criadas e concluídas no período.
@@ -267,7 +267,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Compartilhamento e colaboração de tarefas
 - [x] Crud de categorias
 - [x] Filtros, busca e ordenação
-- [ ] Endpoints otimizados e leves para suportar requisições de Short Polling
+- [x] Endpoints otimizados e leves para suportar requisições de Short Polling
 - [ ] Relatórios simples de progresso
 - [ ] Configurar OpenTelemetry + Jaeger
 - [ ] Swagger/OpenAPI documentação
