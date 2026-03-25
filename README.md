@@ -243,8 +243,9 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Definir e criar modelagem do banco (User, Task, Category)
 - [x] Criar autenticação JWT com bcrypt
 - [x] Endpoint para Listagem de usuários (para colaboração)
-- [ ] CRUD completo de tarefas
-- [ ] Compartilhamento e colaboração de tarefas
+- [x] CRUD completo de tarefas
+- [x] Compartilhamento e colaboração de tarefas
+- [ ] Crud de categorias
 - [ ] Filtros, busca e ordenação
 - [ ] Endpoints otimizados e leves para suportar requisições de Short Polling
 - [ ] Relatórios simples de progresso

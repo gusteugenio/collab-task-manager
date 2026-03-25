@@ -14,12 +14,6 @@ enum TaskStatus {
   DONE
 }
 
-// Enum para Permissões
-enum Permission {
-  EDIT
-  MANAGE
-}
-
 model User {
   id             String             @id @default(uuid())
   name           String
@@ -63,7 +57,6 @@ model TaskCollaborator {
   taskId    String
   userId    String
   addedAt   DateTime @default(now())
-  permission Permission  @default(EDIT)
 
   task      Task     @relation(fields: [taskId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
