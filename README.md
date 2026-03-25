@@ -98,7 +98,25 @@ Esta arquitetura garante que cada componente é independente e pode ser escalado
 
 ## 🗄️ Banco de Dados
 
-TODO: descrever modelagem
+A modelagem foi projetada para suportar um ambiente colaborativo, garantindo a rastreabilidade de quem criou cada tarefa e quem possui permissão para editá-la.
+
+### Modelo de Dados (ERD)
+
+*Diagrama gerado via Mermaid representando as relações entre Usuários, Tarefas e Categorias.*
+
+### Descrição das Entidades
+
+* **User (`User`)**: Armazena as credenciais e o perfil do usuário. Possui uma relação de "Dono" com suas tarefas criadas e uma relação de "Colaborador" com as tarefas compartilhadas.
+* **Task (`Task`)**: O núcleo da aplicação. Gerencia o ciclo de vida da atividade através de Enums de status (`TODO`, `DOING`, `DONE`) e timestamps automáticos de criação e conclusão.
+* **Category (`Category`)**: Permite a rotulação das tarefas. É uma entidade independente e opcional, facilitando a organização sem engessar o fluxo de trabalho.
+* **TaskCollaborator (`TaskCollaborator`)**: Tabela de junção (Pivot) que implementa a relação **Muitos-para-Muitos** entre usuários e tarefas, registrando exatamente quem foi convidado para colaborar em cada item.
+
+### Regras de Negócio e Integridade
+
+1.  **Propriedade Estrita**: Cada tarefa possui um `ownerId` obrigatório. Somente este usuário tem permissão para **deletar** ou **compartilhar** a tarefa com outros.
+2.  **Colaboração Flexível**: Usuários registrados como colaboradores ganham permissão de **edição** sobre o status e conteúdo da tarefa, mas não sobre sua existência no banco.
+3.  **Segurança de Deleção**: Foi implemetada a estratégia `onDelete: SetNull` na relação de categorias. Isso garante que se uma categoria for excluída, as tarefas vinculadas a ela não sejam apagadas, apenas fiquem "sem categoria".
+4.  **Performance**: Índices estratégicos foram aplicados nos campos de `email` (busca rápida no login) e `categoryId` (filtros eficientes no dashboard).
 
 ---
 
