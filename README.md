@@ -313,16 +313,18 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 ### Frontend
 - [x] Setup Vue 3 + Vite + TypeScript
 - [x] Configurar ShadCN-Vue + Tailwind
-- [ ] Pinia stores (auth, tasks, ui)
-- [ ] Páginas: Login, Registro, Dashboard
+- [x] Configura Axios
+- [x] Pinia stores (auth, tasks, ui)
+- [ ] Configuração do Vue Router (Rotas e Guards de proteção)
+- [ ] Páginas: Login, Registro
+- [ ] Páginas de Dashboard (Relatórios simples com gráficos de progresso)
 - [ ] Listagem e CRUD de tarefas
 - [ ] Compartilhamento de tarefas
 - [ ] Filtros e busca
 - [ ] Implementação de Short Polling (setInterval) inteligente para sincronização de tarefas
 - [ ] Indicador de sincronização visual na interface
-- [ ] Relatórios simples (gráficos de progresso)
 - [ ] Feedback visual (loading, erros, sucesso)
-- [ ] Responsiveness e accessibilidade
+- [ ] Responsividade e acessibilidade
 
 ### Deploy & DevOps
 - [ ] Configurar Serverless Framework com AWS credentials
