@@ -311,8 +311,8 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Testes de CRUD (unitários)
 
 ### Frontend
-- [ ] Setup Vue 3 + Vite + TypeScript
-- [ ] Configurar ShadCN-Vue + Tailwind
+- [x] Setup Vue 3 + Vite + TypeScript
+- [x] Configurar ShadCN-Vue + Tailwind
 - [ ] Pinia stores (auth, tasks, ui)
 - [ ] Páginas: Login, Registro, Dashboard
 - [ ] Listagem e CRUD de tarefas
