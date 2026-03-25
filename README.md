@@ -218,11 +218,7 @@ Os relatórios incluem:
   - Quantidade de tarefas por categoria (ex.: Trabalho, Pessoal).
   - Percentual de conclusão por categoria.
 
-3. **Colaboração**:
-  - Número de tarefas compartilhadas.
-  - Usuários mais ativos (baseado em tarefas criadas).
-
-5. **Resumo Diário/Semanal**:
+3. **Resumo por Período**:
   - Tarefas criadas e concluídas no período.
 
 ---
@@ -268,7 +264,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Crud de categorias
 - [x] Filtros, busca e ordenação
 - [x] Endpoints otimizados e leves para suportar requisições de Short Polling
-- [ ] Relatórios simples de progresso
+- [x] Relatórios simples de progresso
 - [ ] Configurar OpenTelemetry + Jaeger
 - [ ] Swagger/OpenAPI documentação
 

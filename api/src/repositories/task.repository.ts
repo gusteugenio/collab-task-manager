@@ -86,4 +86,19 @@ export class TaskRepository {
       }
     })
   }
+
+  // Busca dados completos para os relatórios analíticos
+  async getTasksForReport(userId: string) {
+    return prisma.task.findMany({
+      where: {
+        OR: [
+          { ownerId: userId },
+          { collaborators: { some: { userId } } }
+        ]
+      },
+      include: {
+        category: true
+      }
+    })
+  }
 }
