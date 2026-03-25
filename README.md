@@ -205,6 +205,26 @@ Com isso, é possível acompanhar todo o fluxo de execução da aplicação, inc
 
 Para garantir que a arquitetura serverless não gere custos desnecessários com infraestrutura de monitoramento contínuo, o Jaeger e o Banco de Dados são executados localmente utilizando **Docker** e `docker-compose` durante o desenvolvimento. O deploy de produção foca exclusivamente na performance da API.
 
+### Como acessar o Jaeger
+
+```bash
+cd api
+docker compose up -d jaeger
+```
+
+Abra no navegador:
+
+```text
+http://localhost:16686
+```
+
+Se quiser subir Jaeger + Postgres juntos:
+
+```bash
+cd api
+docker compose up -d
+```
+
 ---
 
 ## 📊 Relatórios
@@ -225,10 +245,27 @@ Os relatórios incluem:
 
 ## 🧪 Testes
 
-A aplicação utiliza **Jest** para testes unitários e de integração.
+A aplicação utiliza **Jest** para testes unitários no backend.
 
+### Estrutura atual
+
+- Testes de controllers em `api/src/controllers/tests/*.spec.ts`
+- Testes de services em `api/src/services/tests/*.spec.ts`
+- Cobertura atual inclui autenticação, CRUD de tarefas/categorias, compartilhamento e relatórios
+
+### Como executar
+
+```bash
+cd api
+npm test
 ```
-TODO: Adicionar testes de autenticação, CRUD, validações
+
+### Executar por camada
+
+```bash
+cd api
+npm test -- src/controllers/tests
+npm test -- src/services/tests
 ```
 
 ---
@@ -269,9 +306,9 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Swagger/OpenAPI documentação
 
 ### Testes
-- [ ] Testes unitários com Jest
-- [ ] Testes de integração de autenticação
-- [ ] Testes de CRUD
+- [x] Testes unitários com Jest
+- [x] Testes de integração de autenticação
+- [x] Testes de CRUD (unitários)
 
 ### Frontend
 - [ ] Setup Vue 3 + Vite + TypeScript
