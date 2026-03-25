@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { createTaskSchema, shareTaskSchema, updateTaskSchema } from '../schemas/task.schema.js'
+import { createTaskSchema, getTasksQuerySchema, shareTaskSchema, updateTaskSchema } from '../schemas/task.schema.js'
 import { TaskService } from '../services/task.service.js'
 
 export class TaskController {
@@ -18,6 +18,9 @@ export class TaskController {
       const task = await this.taskService.createTask(userId, data)
       return reply.status(201).send(task)
     } catch (error: any) {
+      if (error.message === 'Categoria informada não existe.') {
+        return reply.status(400).send({ error: error.message })
+      }
       throw error
     }
   }
@@ -26,7 +29,9 @@ export class TaskController {
   async list(request: FastifyRequest, reply: FastifyReply) {
     try {
       const userId = (request.user as any).sub
-      const tasks = await this.taskService.getUserTasks(userId)
+      const filters = getTasksQuerySchema.parse(request.query)
+      
+      const tasks = await this.taskService.getUserTasks(userId, filters)
       
       return reply.status(200).send({ tasks })
     } catch (error: any) {
@@ -46,6 +51,7 @@ export class TaskController {
     } catch (error: any) {
       if (error.message === 'Tarefa não encontrada.') return reply.status(404).send({ error: error.message })
       if (error.message.includes('permissão')) return reply.status(403).send({ error: error.message })
+      if (error.message === 'Categoria informada não existe.') return reply.status(400).send({ error: error.message })
       throw error
     }
   }

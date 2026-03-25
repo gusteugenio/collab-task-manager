@@ -17,21 +17,34 @@ export class TaskRepository {
   }
 
   // Lista tarefas do usuário (criadas ou compartilhadas com ele)
-async findManyByUserId(userId: string) {
+  async findManyByUserId(userId: string, filters: any = {}) {
+    const baseCondition = {
+      OR: [
+        { ownerId: userId },
+        { collaborators: { some: { userId } } }
+      ]
+    }
+
+    const where: Prisma.TaskWhereInput = {
+      ...baseCondition,
+      ...(filters.status && { status: filters.status }),
+      ...(filters.categoryId && { categoryId: filters.categoryId }),
+      ...(filters.search && {
+        title: { contains: filters.search, mode: 'insensitive' }
+      })
+    }
+
+    const orderDirection = filters.order || 'desc'
+
     return prisma.task.findMany({
-      where: {
-        OR: [
-          { ownerId: userId },
-          { collaborators: { some: { userId } } }
-        ]
-      },
+      where,
       include: {
         category: true,
         collaborators: {
           include: { user: { select: { id: true, name: true, email: true } } }
         }
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: orderDirection }
     })
   }
 

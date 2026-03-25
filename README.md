@@ -266,12 +266,16 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] CRUD completo de tarefas
 - [x] Compartilhamento e colaboração de tarefas
 - [x] Crud de categorias
-- [ ] Filtros, busca e ordenação
+- [x] Filtros, busca e ordenação
 - [ ] Endpoints otimizados e leves para suportar requisições de Short Polling
 - [ ] Relatórios simples de progresso
 - [ ] Configurar OpenTelemetry + Jaeger
-- [ ] Testes com Jest (autenticação, CRUD, validações)
 - [ ] Swagger/OpenAPI documentação
+
+### Testes
+- [ ] Testes unitários com Jest
+- [ ] Testes de integração de autenticação
+- [ ] Testes de CRUD
 
 ### Frontend
 - [ ] Setup Vue 3 + Vite + TypeScript
@@ -286,12 +290,6 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [ ] Relatórios simples (gráficos de progresso)
 - [ ] Feedback visual (loading, erros, sucesso)
 - [ ] Responsiveness e accessibilidade
-
-### Testes
-- [ ] Testes unitários com Jest
-- [ ] Testes de integração de autenticação
-- [ ] Testes de CRUD
-- [ ] Cobertura mínima de 80%
 
 ### Deploy & DevOps
 - [ ] Configurar Serverless Framework com AWS credentials

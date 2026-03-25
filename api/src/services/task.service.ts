@@ -1,14 +1,25 @@
+import { CategoryRepository } from '../repositories/category.repository.js'
 import { TaskRepository } from '../repositories/task.repository.js'
 
 export class TaskService {
   private taskRepository: TaskRepository
+  private categoryRepository: CategoryRepository
+
 
   constructor() {
     this.taskRepository = new TaskRepository()
+    this.categoryRepository = new CategoryRepository()
   }
 
   // Cria tarefa
   async createTask(userId: string, data: any) {
+    if (data.categoryId) {
+      const categoryExists = await this.categoryRepository.findById(data.categoryId)
+      if (!categoryExists) {
+        throw new Error('Categoria informada não existe.')
+      }
+    }
+
     return this.taskRepository.create({
       ...data,
       ownerId: userId
@@ -16,8 +27,8 @@ export class TaskService {
   }
 
   // Lista tarefas do usuário
-  async getUserTasks(userId: string) {
-    const tasks = await this.taskRepository.findManyByUserId(userId)
+  async getUserTasks(userId: string, filters: any = {}) {
+    const tasks = await this.taskRepository.findManyByUserId(userId, filters)
 
     return tasks.map(({ collaborators, category, ...task }) => ({
       ...task,
@@ -39,6 +50,13 @@ export class TaskService {
 
     if (!isOwner && !isCollaborator) {
       throw new Error('Sem permissão para editar esta tarefa.')
+    }
+
+    if (data.categoryId) {
+      const categoryExists = await this.categoryRepository.findById(data.categoryId)
+      if (!categoryExists) {
+        throw new Error('Categoria informada não existe.')
+      }
     }
 
     if (data.status === 'DONE' && task.status !== 'DONE') {
