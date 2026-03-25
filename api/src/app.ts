@@ -5,6 +5,7 @@ import 'dotenv/config'
 import { authRoutes } from './routes/auth.routes.js'
 import { userRoutes } from './routes/user.routes.js'
 import { taskRoutes } from './routes/task.routes.js'
+import { categoryRoutes } from './routes/category.routes.js'
 
 export const app = Fastify({ logger: true })
 
@@ -25,6 +26,9 @@ app.register(userRoutes, { prefix: '/users' })
 
 // Registra as rotas de tasks
 app.register(taskRoutes, { prefix: '/tasks' })
+
+// Registra as rotas de categorias
+app.register(categoryRoutes, { prefix: '/categories' })
 
 // Tratamento global de erros
 app.setErrorHandler((error, request, reply) => {

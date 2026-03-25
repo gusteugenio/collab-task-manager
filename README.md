@@ -245,7 +245,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Endpoint para Listagem de usuários (para colaboração)
 - [x] CRUD completo de tarefas
 - [x] Compartilhamento e colaboração de tarefas
-- [ ] Crud de categorias
+- [x] Crud de categorias
 - [ ] Filtros, busca e ordenação
 - [ ] Endpoints otimizados e leves para suportar requisições de Short Polling
 - [ ] Relatórios simples de progresso

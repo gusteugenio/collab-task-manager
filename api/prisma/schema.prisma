@@ -43,7 +43,7 @@ model Task {
   completedAt DateTime?
   
   categoryId  String?
-  category    Category?          @relation(fields: [categoryId], references: [id])
+  category    Category?          @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   ownerId     String
   owner       User               @relation("TaskOwner", fields: [ownerId], references: [id])
