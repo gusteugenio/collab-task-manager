@@ -1,18 +1,32 @@
-# 📋 Collab Task Manager
+<h1 align="center">📋 Collab Task Manager</h1>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/212d61f8-48d2-4b59-9dad-d69f96491967" width="200" alt="gif-checklist" />
+  <img src="https://github.com/user-attachments/assets/212d61f8-48d2-4b59-9dad-d69f96491967" alt="Collab Task Manager Preview" width="200" />
 </p>
 
-Aplicação fullstack moderna de gerenciamento de tarefas colaborativas, desenvolvida para demonstrar arquitetura serverless, observabilidade e boas práticas de desenvolvimento.
+<p align="center">
+  Uma aplicação fullstack moderna construída com <strong>Vue.js 3</strong> + <strong>Fastify</strong>, focada em gerenciamento de tarefas colaborativas, arquitetura serverless e observabilidade.<br />
+  Permite criar, organizar e compartilhar tarefas com múltiplos usuários, acompanhando progresso em tempo real de forma simples e eficiente.<br />
+  <a href="FRONTEND_URL" target="_blank">🚀 Acesse a versão online aqui</a>
+</p>
 
-O sistema permite que usuários criem, organizem e compartilhem tarefas, acompanhando o progresso de forma simples, visual e eficiente.
+TODO: Preencher URL 
 
 ---
 
-## 🚀 Demo
+## 🚀 Deploy
 
-TODO: adicionar URL do frontend e da API
+O projeto está disponível em produção com deploys separados para frontend e backend:
+
+- Frontend hospedado no **Vercel**  
+- Backend hospedado na **AWS (Lambda + API Gateway)**  
+
+### 🔗 URLs
+
+TODO: Preencher URLs
+
+- Frontend: `FRONTEND_URL`
+- API: `API_URL`
 
 ---
 
@@ -69,12 +83,22 @@ A aplicação segue uma **arquitetura distribuída com padrão em camadas**:
 - **Middleware** → autenticação, validação, observabilidade
 
 ### Distribuição (Serverless)
-- **Frontend**: AWS S3 (hospedagem estática)
+- **Frontend**: Vercel
 - **Backend**: AWS Lambda + API Gateway (escalável automaticamente, sem servidor)
 - **Database**: PostgreSQL em RDS
 - **Observabilidade**: OpenTelemetry → Jaeger (Exclusivo para Ambiente Local)
 
 Esta arquitetura garante que cada componente é independente e pode ser escalado conforme necessário.
+
+---
+
+## 💡 Decisões Técnicas
+
+* **Fastify em vez de Express**: Optei pelo Fastify por sua alta performance e baixo overhead. Em ambientes serverless como AWS Lambda, respostas mais rápidas significam menor tempo de execução e, consequentemente, redução de custos. Além disso, o Fastify possui uma arquitetura mais organizada para plugins, facilitando a integração de ferramentas como monitoramento e logging.
+* **Prisma ORM**: Utilizei o Prisma para garantir tipagem forte e consistência no acesso aos dados. Isso reduz erros comuns (como campos incorretos em queries) e torna o desenvolvimento mais seguro, produtivo e fácil de manter.
+* **Organização em Camadas (Repository & Service)**: A separação entre regras de negócio (Service) e acesso a dados (Repository) melhora a organização do código e facilita a manutenção. Além disso, permite a criação de testes automatizados sem dependência direta do banco de dados.
+* **Atualização Inteligente (Short Polling)**: Para otimizar a comunicação com o frontend, o sistema utiliza o campo `updatedAt` para buscar apenas os dados modificados desde a última requisição. Isso reduz o volume de dados trafegados e a carga no banco, mantendo uma experiência próxima de tempo real com menor custo.
+* **Soft Delete**: As tarefas não são removidas fisicamente do banco ao serem deletadas. Em vez disso, são marcadas como excluídas. Isso garante consistência entre múltiplos usuários conectados, permitindo que o frontend sincronize corretamente a remoção dos dados.
 
 ---
 
@@ -93,6 +117,23 @@ Esta arquitetura garante que cada componente é independente e pode ser escalado
 - **Colaboração Reativa** com atualizações simulando tempo real via Short Polling (arquitetura otimizada para Serverless)
 - Documentação de endpoints com Swagger/OpenAPI
 - Observabilidade distribuída com OpenTelemetry + Jaeger no desenvolvimento
+- Implementação de um fluxo de sincronização incremental que simula o comportamento de streaming de dados, otimizando o consumo de recursos em ambiente Serverless.
+
+---
+
+## 📂 Estrutura do Projeto
+
+O projeto está dividido em um monorepo simples:
+
+- `api/`: Backend Fastify (Node.js)
+  - `src/controllers/`: Manipulação de entradas/saídas HTTP.
+  - `src/services/`: Toda a lógica de negócio e regras de colaboração.
+  - `src/repositories/`: Abstração do banco de dados (Prisma).
+  - `src/schemas/`: Validações de dados com Zod.
+- `web/`: Frontend Vue.js 3
+  - `src/components/`: Componentes UI reutilizáveis.
+  - `src/stores/`: Gerenciamento de estado global com Pinia.
+  - `src/views/`: Páginas principais da aplicação.
 
 ---
 
@@ -117,21 +158,59 @@ A modelagem foi projetada para suportar um ambiente colaborativo, garantindo a r
 
 1.  **Propriedade Estrita**: Cada tarefa possui um `ownerId` obrigatório. Somente este usuário tem permissão para **deletar** ou **compartilhar** a tarefa com outros.
 2.  **Colaboração Flexível**: Usuários registrados como colaboradores ganham permissão de **edição** sobre o status e conteúdo da tarefa, mas não sobre sua existência no banco.
-3.  **Segurança de Deleção**: Foi implemetada a estratégia `onDelete: SetNull` na relação de categorias. Isso garante que se uma categoria for excluída, as tarefas vinculadas a ela não sejam apagadas, apenas fiquem "sem categoria".
+3.  **Segurança de Deleção**: Foi implementada a estratégia `onDelete: SetNull` na relação de categorias. Isso garante que se uma categoria for excluída, as tarefas vinculadas a ela não sejam apagadas, apenas fiquem "sem categoria".
 4.  **Performance**: Índices estratégicos foram aplicados nos campos de `email` (busca rápida no login) e `categoryId` (filtros eficientes no dashboard).
+5.  **Sincronização Incremental**: O sistema usa o campo updatedAt para buscar apenas dados atualizados, reduzindo o tráfego e a carga no banco.
+6.  **Testes unitários**: As principais funcionalidades são cobertas por testes para garantir a segurança e integridade da aplicação.
+7.  **Soft Delete**: Ao deletar uma tarefa ela é mantida no banco de dados, mas com a marcação `deletedAt` para facilitar rastreabilidade.
 
 ---
 
 ## ⚙️ Como Rodar
 
+### Pré-requisitos
+- Node.js 20+
+- npm
+- Docker e Docker Compose
+
 ### Backend
+```bash
+cd api
+npm install
+
+# sobe Postgres + Jaeger
+docker compose up -d
+
+# aplica migrations no banco
+npx prisma migrate deploy
+
+# inicia API em modo desenvolvimento
+npm run dev
 ```
-TODO
+
+API disponível em:
+
+```text
+http://localhost:3333
+```
+
+Swagger/OpenAPI:
+
+```text
+http://localhost:3333/documentation
 ```
 
 ### Frontend
+```bash
+cd web
+npm install
+npm run dev
 ```
-TODO
+
+Frontend disponível em:
+
+```text
+http://localhost:5173
 ```
 
 ---
@@ -139,21 +218,53 @@ TODO
 ## 🔐 Variáveis de Ambiente
 
 ### Backend
-```
-TODO
+Arquivo: `api/.env`
+
+```env
+# Postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=tasks
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/tasks?schema=public"
+
+# JWT
+JWT_SECRET="chave-secreta-do-collab-task-2026"
+
+# URL do frontend para CORS
+FRONTEND_URL=http://localhost:5173
 ```
 
 ### Frontend
-```
-TODO
+Arquivo: `web/.env`
+
+```env
+VITE_API_URL=http://localhost:3333
 ```
 
 ---
 
 ## 🐳 Docker
 
+O ambiente Docker foi configurado para desenvolvimento local com PostgreSQL e Jaeger.
+
+### Subir serviços
+
+```bash
+cd api
+docker compose up -d
 ```
-TODO
+
+Serviços expostos:
+
+- PostgreSQL: `localhost:5432`
+- Jaeger UI: `http://localhost:16686`
+- OpenTelemetry OTLP HTTP: `localhost:4318`
+
+### Parar serviços
+
+```bash
+cd api
+docker compose down
 ```
 
 ---
@@ -203,7 +314,7 @@ Com isso, é possível acompanhar todo o fluxo de execução da aplicação, inc
 - Identificação de gargalos de performance  
 - Rastreamento de erros ao longo da execução  
 
-Para garantir que a arquitetura serverless não gere custos desnecessários com infraestrutura de monitoramento contínuo, o Jaeger e o Banco de Dados são executados localmente utilizando **Docker** e `docker-compose` durante o desenvolvimento. O deploy de produção foca exclusivamente na performance da API.
+Para garantir que a arquitetura serverless não gere custos desnecessários com infraestrutura de monitoramento contínuo, o Jaeger e o Banco de Dados são executados localmente utilizando **Docker** durante o desenvolvimento. O deploy de produção foca exclusivamente na performance da API.
 
 ### Como acessar o Jaeger
 
@@ -328,12 +439,13 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Feedback visual (loading, erros, sucesso)
 
 ### Deploy & DevOps
-- [ ] Configurar Serverless Framework com AWS credentials
-- [ ] Variáveis de ambiente para prod
-- [ ] AWS Lambda + API Gateway
-- [ ] AWS RDS PostgreSQL
-- [ ] Deploy em produção com `serverless deploy`
-- [ ] Testar endpoints do API Gateway
+- [ ] Criar usuário IAM na AWS e configurar `aws-credentials` localmente
+- [ ] Configurar o arquivo `serverless.yml` para integração com a AWS
+- [ ] Configurar variáveis de ambiente de produção (Secrets)
+- [ ] Provisionar banco de dados PostgreSQL (AWS RDS)
+- [ ] Realizar o deploy da API via `serverless deploy`
+- [ ] Configurar o deploy automático do Frontend na Vercel
+- [ ] Validar a integração entre Frontend (Vercel) e Backend (AWS)
 ---
 
 ## 📬 Contato
