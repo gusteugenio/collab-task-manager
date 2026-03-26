@@ -326,7 +326,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [ ] Implementação de Short Polling (setInterval) inteligente para sincronização de tarefas
 - [ ] Indicador de sincronização visual na interface
 - [ ] Feedback visual (loading, erros, sucesso)
-- [ ] Responsividade e acessibilidade
+- [ ] Responsividade
 
 ### Deploy & DevOps
 - [ ] Configurar Serverless Framework com AWS credentials
