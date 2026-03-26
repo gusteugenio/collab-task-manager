@@ -34,12 +34,12 @@ const router = createRouter({
       component: () => import('@/views/CategoriesView.vue'),
       meta: { requiresAuth: true }
     },
-    // {
-    //   path: '/tasks',
-    //   name: 'tasks',
-    //   component: () => import('@/views/TasksView.vue'),
-    //   meta: { requiresAuth: true }
-    // },
+    {
+      path: '/tasks',
+      name: 'tasks',
+      component: () => import('@/views/TasksView.vue'),
+      meta: { requiresAuth: true }
+    },
     // redireciona qualquer rota não encontrada pro dashboard
     {
       path: '/:pathMatch(.*)*',

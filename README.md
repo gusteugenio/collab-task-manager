@@ -320,13 +320,12 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Páginas: Login, Registro
 - [x] Páginas de Dashboard (Relatórios simples com gráficos de progresso)
 - [x] Listagem e CRUD de categorias
-- [ ] Listagem e CRUD de tarefas
-- [ ] Compartilhamento de tarefas
-- [ ] Filtros e busca
-- [ ] Implementação de Short Polling (setInterval) inteligente para sincronização de tarefas
-- [ ] Indicador de sincronização visual na interface
-- [ ] Feedback visual (loading, erros, sucesso)
-- [ ] Responsividade
+- [x] Listagem e CRUD de tarefas
+- [x] Compartilhamento de tarefas
+- [x] Filtros e busca
+- [x] Implementação de Short Polling (setInterval) inteligente para sincronização de tarefas, categorias e relatórios
+- [x] Indicador de sincronização visual na interface
+- [x] Feedback visual (loading, erros, sucesso)
 
 ### Deploy & DevOps
 - [ ] Configurar Serverless Framework com AWS credentials

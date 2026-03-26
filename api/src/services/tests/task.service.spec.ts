@@ -284,12 +284,12 @@ describe('TaskService', () => {
 			const task = { id: 'task-id', ownerId: 'user-id' }
 
 			jest.spyOn(TaskRepository.prototype, 'findById').mockResolvedValue(task as never)
-			jest.spyOn(TaskRepository.prototype, 'delete').mockResolvedValue(task as never)
+			jest.spyOn(TaskRepository.prototype, 'softDelete').mockResolvedValue(task as never)
 
 			const result = await taskService.deleteTask('task-id', 'user-id')
 
 			// Assert
-			expect(TaskRepository.prototype.delete).toHaveBeenCalledWith('task-id')
+			expect(TaskRepository.prototype.softDelete).toHaveBeenCalledWith('task-id')
 			expect(result).toEqual(task)
 		})
 
@@ -322,11 +322,13 @@ describe('TaskService', () => {
 
 			jest.spyOn(TaskRepository.prototype, 'findById').mockResolvedValue(task as never)
 			jest.spyOn(TaskRepository.prototype, 'addCollaborator').mockResolvedValue({ taskId: 'task-id', userId: 'target-id' } as never)
+			jest.spyOn(TaskRepository.prototype, 'update').mockResolvedValue({ id: 'task-id' } as never)
 
 			const result = await taskService.shareTask('task-id', 'owner-id', 'target-id')
 
 			// Assert
 			expect(TaskRepository.prototype.addCollaborator).toHaveBeenCalledWith('task-id', 'target-id')
+			expect(TaskRepository.prototype.update).toHaveBeenCalledWith('task-id', expect.objectContaining({ updatedAt: expect.any(Date) }))
 			expect(result).toEqual({ taskId: 'task-id', userId: 'target-id' })
 		})
 

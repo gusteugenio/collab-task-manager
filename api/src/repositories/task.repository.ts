@@ -10,8 +10,8 @@ export class TaskRepository {
 
   // Busca tarefa por ID incluindo colaboradores
   async findById(id: string) {
-    return prisma.task.findUnique({
-      where: { id },
+    return prisma.task.findFirst({
+      where: { id, deletedAt: null } as any,
       include: { collaborators: true }
     })
   }
@@ -27,6 +27,7 @@ export class TaskRepository {
 
     const where: Prisma.TaskWhereInput = {
       ...baseCondition,
+      deletedAt: null,
       ...(filters.status && { status: filters.status }),
       ...(filters.categoryId && { categoryId: filters.categoryId }),
       ...(filters.search && {
@@ -53,9 +54,12 @@ export class TaskRepository {
     return prisma.task.update({ where: { id }, data })
   }
 
-  // Deleta tarefa
-  async delete(id: string) {
-    return prisma.task.delete({ where: { id } })
+  // Soft delete da tarefa
+  async softDelete(id: string) {
+    return prisma.task.update({
+      where: { id },
+      data: { deletedAt: new Date() } as any
+    })
   }
 
   // Adiciona um colaborador à tarefa
@@ -94,8 +98,9 @@ export class TaskRepository {
         OR: [
           { ownerId: userId },
           { collaborators: { some: { userId } } }
-        ]
-      },
+        ],
+        deletedAt: null
+      } as any,
       include: {
         category: true
       }

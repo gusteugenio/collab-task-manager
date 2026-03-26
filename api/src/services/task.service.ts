@@ -80,7 +80,7 @@ export class TaskService {
       throw new Error('Apenas o dono pode deletar a tarefa.')
     }
 
-    return this.taskRepository.delete(taskId)
+    return this.taskRepository.softDelete(taskId)
   }
 
   // Compartilha tarefa com outro usuário
@@ -94,7 +94,13 @@ export class TaskService {
     const alreadyShared = task.collaborators.some(c => c.userId === targetUserId)
     if (alreadyShared) throw new Error('Tarefa já compartilhada com este usuário.')
 
-    return this.taskRepository.addCollaborator(taskId, targetUserId)
+    const collaborator = await this.taskRepository.addCollaborator(taskId, targetUserId)
+
+    await this.taskRepository.update(taskId, { 
+      updatedAt: new Date() 
+    })
+
+    return collaborator
   }
 
   // Retorna tasks sincronizadas

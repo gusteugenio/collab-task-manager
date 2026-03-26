@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { api } from '@/lib/axios'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { ListTodo, CheckSquare, Clock, TrendingUp, PieChart, Activity, Loader2 } from 'lucide-vue-next'
@@ -7,21 +7,32 @@ import { ListTodo, CheckSquare, Clock, TrendingUp, PieChart, Activity, Loader2 }
 const periodInDays = ref('7')
 const report = ref<any>(null)
 const isLoading = ref(true)
+let pollInterval: any = null
 
-const fetchReport = async () => {
-  isLoading.value = true
+const fetchReport = async (showLoading = true) => {
+  if (showLoading) isLoading.value = true
   try {
     const { data } = await api.get(`/reports?periodInDays=${periodInDays.value}`)
     report.value = data
   } catch (error) {
     console.error('Erro ao buscar relatório:', error)
   } finally {
-    isLoading.value = false
+    if (showLoading) isLoading.value = false
   }
 }
 
-onMounted(fetchReport)
-watch(periodInDays, fetchReport)
+onMounted(() => {
+  fetchReport()
+  pollInterval = setInterval(() => {
+    fetchReport(false)
+  }, 20000)
+})
+
+onUnmounted(() => {
+  if (pollInterval) clearInterval(pollInterval)
+})
+
+watch(periodInDays, () => fetchReport(true))
 </script>
 
 <template>

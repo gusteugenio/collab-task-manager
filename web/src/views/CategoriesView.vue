@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
@@ -8,6 +8,7 @@ import { useCategoryStore } from '@/stores/category'
 import { Tags, Plus, Edit2, Trash2, AlertCircle, Loader2 } from 'lucide-vue-next'
 
 const categoryStore = useCategoryStore()
+let pollInterval: any = null
 
 const isSubmitting = ref(false)
 const isDeleting = ref(false)
@@ -71,7 +72,17 @@ const confirmDelete = async () => {
   }
 }
 
-onMounted(() => categoryStore.fetchCategories())
+onMounted(() => {
+  categoryStore.fetchCategories()
+  
+  pollInterval = setInterval(() => {
+    categoryStore.fetchCategories()
+  }, 20000)
+})
+
+onUnmounted(() => {
+  if (pollInterval) clearInterval(pollInterval)
+})
 </script>
 
 <template>
