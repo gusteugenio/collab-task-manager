@@ -26,7 +26,7 @@ O projeto está disponível em produção com deploys separados para frontend e 
 TODO: Preencher URLs
 
 - Frontend: `FRONTEND_URL`
-- API: `API_URL`
+- API: `https://7ma10y8gs0.execute-api.sa-east-1.amazonaws.com/`
 
 ---
 
@@ -67,7 +67,6 @@ TODO: Preencher URLs
 - ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) **Docker**
 - ![AWS Lambda](https://img.shields.io/badge/AWS_Lambda-FF9900?style=for-the-badge&logo=aws-lambda&logoColor=white) **AWS Lambda**
 - ![AWS API Gateway](https://img.shields.io/badge/AWS_API_Gateway-FF9900?style=for-the-badge) **AWS API Gateway**
-- ![AWS RDS](https://img.shields.io/badge/AWS_RDS-FF9900?style=for-the-badge) **AWS RDS**
 - ![Serverless](https://img.shields.io/badge/Serverless-FD5750?style=for-the-badge&logo=serverless&logoColor=white) **Serverless Framework**
 
 ---
@@ -85,7 +84,7 @@ A aplicação segue uma **arquitetura distribuída com padrão em camadas**:
 ### Distribuição (Serverless)
 - **Frontend**: Vercel
 - **Backend**: AWS Lambda + API Gateway (escalável automaticamente, sem servidor)
-- **Database**: PostgreSQL em RDS
+- **Database**: neon.tech (PostgreSQL)
 - **Observabilidade**: OpenTelemetry → Jaeger (Exclusivo para Ambiente Local)
 
 Esta arquitetura garante que cada componente é independente e pode ser escalado conforme necessário.
@@ -177,6 +176,9 @@ A modelagem foi projetada para suportar um ambiente colaborativo, garantindo a r
 ```bash
 cd api
 npm install
+
+# gera Prisma Client no local customizado necessário para Serverless
+npx prisma generate
 
 # sobe Postgres + Jaeger
 docker compose up -d
@@ -386,12 +388,19 @@ npm test -- src/services/tests
 A aplicação é deployada com o **Serverless Framework** em AWS Lambda.
 
 ```bash
-serverless deploy --stage prod
+npm run deploy
+```
+
+Ou manualmente:
+
+```bash
+npx prisma generate
+serverless deploy
 ```
 
 **Configuração**:
 - **Backend**: AWS Lambda + API Gateway.
-- **Banco de Dados**: PostgreSQL em AWS RDS (db.t3.micro).
+- **Banco de Dados**: PostgreSQL em neon.tech.
 - **Frontend**: Hospedado na Vercel.
 
 Todo o deploy está configurado para funcionar diretamente com as ferramentas e serviços descritos.
@@ -405,7 +414,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Configurar Fastify com TypeScript
 - [x] Configurar Prisma e PostgreSQL
 - [x] Definir e criar modelagem do banco (User, Task, Category)
-- [x] Criar autenticação JWT com bcrypt
+- [x] Criar autenticação JWT com bcryptjs
 - [x] Endpoint para Listagem de usuários (para colaboração)
 - [x] CRUD completo de tarefas
 - [x] Compartilhamento e colaboração de tarefas
@@ -439,11 +448,11 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Feedback visual (loading, erros, sucesso)
 
 ### Deploy & DevOps
-- [ ] Criar usuário IAM na AWS e configurar `aws-credentials` localmente
-- [ ] Configurar o arquivo `serverless.yml` para integração com a AWS
-- [ ] Configurar variáveis de ambiente de produção (Secrets)
-- [ ] Provisionar banco de dados PostgreSQL (AWS RDS)
-- [ ] Realizar o deploy da API via `serverless deploy`
+- [x] Criar usuário IAM na AWS e configurar `aws-credentials` localmente
+- [x] Configurar o arquivo `serverless.yml` para integração com a AWS
+- [x] Configurar variáveis de ambiente de produção (Secrets)
+- [x] Provisionar banco de dados PostgreSQL (neon.tech)
+- [x] Realizar o deploy da API via `serverless deploy`
 - [ ] Configurar o deploy automático do Frontend na Vercel
 - [ ] Validar a integração entre Frontend (Vercel) e Backend (AWS)
 ---

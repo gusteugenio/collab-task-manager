@@ -41,6 +41,10 @@ app.register(fastifySwagger, {
 
 app.register(fastifySwaggerUi, {
   routePrefix: '/documentation',
+  uiConfig: {
+    docExpansion: 'list',
+    deepLinking: false
+  }
 })
 
 if (!process.env.JWT_SECRET) {

@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { UserRepository } from '../repositories/user.repository.js'
 
 export class AuthService {

@@ -1,6 +1,8 @@
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["tracing"]
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  output        = "../src/generated/client"
 }
 
 datasource db {

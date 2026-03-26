@@ -1,0 +1,43 @@
+service: collab-task-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: sa-east-1
+  stage: prod
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    JWT_SECRET: ${env:JWT_SECRET}
+    FRONTEND_URL: '*'
+
+functions:
+  main:
+    handler: src/lambda.handler
+    events: 
+      - httpApi: '*'
+
+build:
+  esbuild:
+    bundle: true
+    minify: true
+    platform: node
+    format: esm
+    target: node20
+    banner:
+      js: |
+        import { createRequire } from 'module';
+        import { fileURLToPath } from 'url';
+        import { dirname } from 'path';
+        const require = createRequire(import.meta.url);
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = dirname(__filename);
+    external:
+      - '@fastify/swagger'
+      - '@fastify/swagger-ui'
+      - './src/generated/client/libquery_engine-rhel-*'
+
+package:
+  individually: true
+  patterns:
+    - 'src/generated/client/libquery_engine-rhel-*'
+    - 'prisma/schema.prisma'
