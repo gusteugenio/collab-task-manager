@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import ResourceList from '@/components/ui/ResourceList.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
@@ -12,12 +12,14 @@ import axios from 'axios'
 import { 
   Plus, Search, Tags, RefreshCw, Clock, 
   Edit2, Trash2, Share2, ChevronDown, Check,
-  User as UserIcon, AlertCircle, Play, FileText, Calendar, UserCheck, Loader2
+  User as UserIcon, AlertCircle, Play, FileText, Calendar, UserCheck, Loader2, X
 } from 'lucide-vue-next'
+import { useRoute } from 'vue-router'
 
 const taskStore = useTaskStore()
 const categoryStore = useCategoryStore()
 const authStore = useAuthStore()
+const route = useRoute()
 
 // Filtros e estados
 const search = ref('')
@@ -25,7 +27,6 @@ const status = ref('')
 const categoryId = ref('')
 const users = ref<any[]>([])
 
-// UI States
 const isSubmitting = ref(false)
 const errorMessage = ref('')
 const isModalOpen = ref(false)
@@ -34,17 +35,34 @@ const isShareModalOpen = ref(false)
 const isViewModalOpen = ref(false)
 const isEditing = ref(false)
 
+// Estados para criação rápida de categoria
+const isCreatingCategory = ref(false)
+const newCategoryName = ref('')
+const isSubmittingCategory = ref(false)
+
+// Estados para compartilhamento
+const shareUserSearch = ref('')
+const shareUserId = ref('')
+
 const taskForm = ref({ id: '', title: '', description: '', categoryId: '', status: 'TODO' })
 const taskToView = ref<any>(null)
 const taskToDelete = ref<any>(null)
 const taskToShare = ref<any>(null)
-const shareUserId = ref('')
 
 const statusOptions = [
   { value: 'TODO', label: 'Pendente', class: 'bg-muted text-muted-foreground' },
   { value: 'DOING', label: 'Fazendo', class: 'bg-blue-500/10 text-blue-500 border border-blue-500/20' },
   { value: 'DONE', label: 'Concluído', class: 'bg-green-500/10 text-green-500 border border-green-500/20' }
 ]
+
+const filteredUsers = computed(() => {
+  const query = shareUserSearch.value.toLowerCase()
+  if (!query) return users.value
+  return users.value.filter(u => 
+    u.name.toLowerCase().includes(query) || 
+    u.email.toLowerCase().includes(query)
+  )
+})
 
 const loadData = () => {
   const filters: any = {}
@@ -62,10 +80,11 @@ const fetchUsers = async () => {
   }
 }
 
-// Funções de Modal
 const openCreate = () => {
   isEditing.value = false
   errorMessage.value = ''
+  isCreatingCategory.value = false
+  newCategoryName.value = ''
   taskForm.value = { id: '', title: '', description: '', categoryId: '', status: 'TODO' }
   isModalOpen.value = true
 }
@@ -73,6 +92,8 @@ const openCreate = () => {
 const openEdit = (task: any) => {
   isEditing.value = true
   errorMessage.value = ''
+  isCreatingCategory.value = false
+  newCategoryName.value = ''
   taskForm.value = { 
     id: task.id, 
     title: task.title, 
@@ -91,6 +112,30 @@ const openView = (task: any) => {
 const openDeleteConfirm = (task: any) => {
   taskToDelete.value = task
   isConfirmOpen.value = true
+}
+
+const handleCreateCategory = async () => {
+  if (!newCategoryName.value.trim()) return
+
+  isSubmittingCategory.value = true
+  errorMessage.value = ''
+  
+  try {
+    await categoryStore.createCategory(newCategoryName.value)
+    
+    // Seleciona a categoria recém-criada
+    const newCat = categoryStore.categories.find(c => c.name === newCategoryName.value)
+    if (newCat) {
+      taskForm.value.categoryId = newCat.id
+    }
+    
+    isCreatingCategory.value = false
+    newCategoryName.value = ''
+  } catch (error: any) {
+    errorMessage.value = error.response?.data?.error || 'Erro ao criar categoria.'
+  } finally {
+    isSubmittingCategory.value = false
+  }
 }
 
 const handleSave = async () => {
@@ -142,12 +187,17 @@ const handleShare = async () => {
     await taskStore.shareTask(taskToShare.value.id, shareUserId.value)
     isShareModalOpen.value = false
     shareUserId.value = ''
+    shareUserSearch.value = ''
   } catch (e) {
     alert('Não foi possível compartilhar a tarefa.')
   }
 }
 
 onMounted(() => {
+  if (route.query.category) {
+    categoryId.value = route.query.category as string
+  }
+
   loadData()
   categoryStore.fetchCategories()
   fetchUsers()
@@ -316,12 +366,39 @@ watch(search, () => {
             <label class="text-sm font-bold text-muted-foreground uppercase text-[11px]">Título</label>
             <input v-model="taskForm.title" required class="w-full bg-muted/50 border border-border p-2.5 rounded-lg outline-none focus:ring-2 focus:ring-primary" :disabled="isSubmitting" />
           </div>
+          
           <div class="space-y-1">
-            <label class="text-sm font-bold text-muted-foreground uppercase text-[11px]">Categoria</label>
-            <select v-model="taskForm.categoryId" class="w-full bg-muted/50 border border-border p-2.5 rounded-lg outline-none cursor-pointer" :disabled="isSubmitting">
-              <option value="">Sem categoria</option>
-              <option v-for="cat in categoryStore.categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-            </select>
+            <label class="text-sm font-bold text-muted-foreground uppercase text-[11px] flex justify-between items-center">
+              Categoria
+            </label>
+            
+            <div v-if="!isCreatingCategory" class="flex gap-2">
+              <select v-model="taskForm.categoryId" class="flex-1 bg-muted/50 border border-border p-2.5 rounded-lg outline-none cursor-pointer" :disabled="isSubmitting">
+                <option value="">Sem categoria</option>
+                <option v-for="cat in categoryStore.categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+              </select>
+              <button type="button" @click="isCreatingCategory = true" class="px-3 bg-muted border border-border rounded-lg hover:bg-muted/80 flex items-center justify-center transition-colors" title="Nova Categoria">
+                <Plus class="w-4 h-4 text-muted-foreground" />
+              </button>
+            </div>
+            
+            <div v-else class="flex gap-2 animate-in slide-in-from-right-2 duration-200">
+              <input 
+                v-model="newCategoryName" 
+                placeholder="Nome da nova categoria" 
+                class="flex-1 bg-background border border-primary/50 p-2.5 rounded-lg outline-none focus:ring-1 focus:ring-primary text-sm" 
+                :disabled="isSubmittingCategory"
+                @keyup.enter.prevent="handleCreateCategory"
+                autofocus
+              />
+              <button type="button" @click="handleCreateCategory" :disabled="isSubmittingCategory || !newCategoryName.trim()" class="px-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 flex items-center justify-center disabled:opacity-50">
+                <Loader2 v-if="isSubmittingCategory" class="w-4 h-4 animate-spin" />
+                <Check v-else class="w-4 h-4" />
+              </button>
+              <button type="button" @click="isCreatingCategory = false; newCategoryName = ''" :disabled="isSubmittingCategory" class="px-3 bg-destructive/10 text-destructive border border-destructive/20 rounded-lg hover:bg-destructive/20 flex items-center justify-center transition-colors">
+                <X class="w-4 h-4" />
+              </button>
+            </div>
           </div>
           <div class="space-y-1">
             <label class="text-sm font-bold text-muted-foreground uppercase text-[11px]">Descrição</label>
@@ -342,14 +419,39 @@ watch(search, () => {
 
       <BaseModal :is-open="isShareModalOpen" title="Convidar Colaborador" @close="isShareModalOpen = false">
         <div class="space-y-4">
-          <div class="space-y-1">
-            <label class="text-sm font-bold text-muted-foreground uppercase text-[11px]">Selecione o Usuário</label>
-            <select v-model="shareUserId" class="w-full bg-muted/50 border border-border p-2.5 rounded-lg outline-none focus:ring-2 focus:ring-primary cursor-pointer">
-              <option value="">Nenhum</option>
-              <option v-for="u in users" :key="u.id" :value="u.id">{{ u.name }}</option>
-            </select>
+          
+          <div class="relative">
+            <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input 
+              v-model="shareUserSearch" 
+              placeholder="Buscar por nome ou email..." 
+              class="w-full pl-9 pr-4 py-2 bg-muted/50 border border-border rounded-lg outline-none focus:ring-2 focus:ring-primary text-sm transition-all"
+            />
           </div>
-          <button @click="handleShare" :disabled="!shareUserId" class="w-full bg-primary text-white py-2.5 rounded-lg font-bold disabled:opacity-50">
+
+          <div class="max-h-[220px] overflow-y-auto space-y-1 border border-border rounded-lg p-1.5 bg-background shadow-inner">
+            <div v-if="filteredUsers.length === 0" class="p-4 text-center text-sm text-muted-foreground">
+              Nenhum usuário encontrado.
+            </div>
+            
+            <button 
+              v-for="u in filteredUsers" 
+              :key="u.id" 
+              @click="shareUserId = u.id"
+              type="button"
+              class="w-full flex flex-col items-start px-3 py-2 rounded-md transition-all text-left"
+              :class="shareUserId === u.id ? 'bg-primary/10 border border-primary/20' : 'hover:bg-muted border border-transparent'"
+            >
+              <span class="text-sm font-semibold" :class="shareUserId === u.id ? 'text-primary' : 'text-foreground'">
+                {{ u.name }}
+              </span>
+              <span class="text-xs text-muted-foreground truncate w-full">
+                {{ u.email }}
+              </span>
+            </button>
+          </div>
+
+          <button @click="handleShare" :disabled="!shareUserId" class="w-full bg-primary text-white py-2.5 rounded-lg font-bold disabled:opacity-50 mt-2">
             Compartilhar Tarefa
           </button>
         </div>

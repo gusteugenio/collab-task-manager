@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { api } from '@/lib/axios'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { ListTodo, CheckSquare, Clock, TrendingUp, PieChart, Activity, Loader2 } from 'lucide-vue-next'
+import { useTaskStore } from '@/stores/task' 
+
+const router = useRouter()
+const taskStore = useTaskStore()
 
 const periodInDays = ref('7')
 const report = ref<any>(null)
 const isLoading = ref(true)
+const showEmptyModal = ref(false)
 let pollInterval: any = null
 
 const fetchReport = async (showLoading = true) => {
@@ -21,8 +27,19 @@ const fetchReport = async (showLoading = true) => {
   }
 }
 
-onMounted(() => {
+const goToTasks = () => {
+  showEmptyModal.value = false
+  router.push('/tasks')
+}
+
+onMounted(async () => {
   fetchReport()
+  
+  await taskStore.fetchTasks()
+  if (taskStore.tasks.length === 0) {
+    showEmptyModal.value = true
+  }
+
   pollInterval = setInterval(() => {
     fetchReport(false)
   }, 20000)
@@ -37,6 +54,25 @@ watch(periodInDays, () => fetchReport(true))
 
 <template>
   <AppLayout>
+    <div v-if="showEmptyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div class="bg-card border border-border rounded-xl shadow-lg w-full max-w-md p-6 space-y-6 animate-in zoom-in-95 duration-200">
+        <div class="space-y-2 text-center sm:text-left">
+          <h2 class="text-xl font-semibold tracking-tight text-foreground">Bem-vindo(a)!</h2>
+          <p class="text-muted-foreground text-sm">
+            Notamos que você ainda não possui nenhuma tarefa. Gostaria de criar a sua primeira tarefa agora para começar a se organizar?
+          </p>
+        </div>
+        <div class="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 mt-6">
+          <button @click="showEmptyModal = false" class="px-4 py-2 rounded-md text-sm font-medium border border-border bg-background hover:bg-muted text-foreground transition-colors">
+            Agora não
+          </button>
+          <button @click="goToTasks" class="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+            Sim, criar tarefa
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="p-6 md:p-8 flex-1 w-full max-w-6xl mx-auto space-y-8">
       
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

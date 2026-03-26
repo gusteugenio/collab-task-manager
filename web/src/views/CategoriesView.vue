@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
@@ -8,6 +9,7 @@ import { useCategoryStore } from '@/stores/category'
 import { Tags, Plus, Edit2, Trash2, AlertCircle, Loader2 } from 'lucide-vue-next'
 
 const categoryStore = useCategoryStore()
+const router = useRouter()
 let pollInterval: any = null
 
 const isSubmitting = ref(false)
@@ -19,6 +21,10 @@ const isConfirmOpen = ref(false)
 const isEditing = ref(false)
 const formData = ref({ id: '', name: '' })
 const categoryToDelete = ref({ id: '', name: '' })
+
+const goToTasksWithCategory = (categoryId: string) => {
+  router.push({ path: '/tasks', query: { category: categoryId } })
+}
 
 const openCreateModal = () => {
   isEditing.value = false
@@ -122,23 +128,26 @@ onUnmounted(() => {
         <li 
           v-for="category in categoryStore.categories" 
           :key="category.id" 
-          class="flex items-center justify-between p-4 sm:px-6 hover:bg-muted/50 transition-colors group"
+          @click="goToTasksWithCategory(category.id)"
+          class="flex items-center justify-between p-4 sm:px-6 hover:bg-muted/50 transition-colors group cursor-pointer"
         >
           <div class="flex items-center gap-3">
-            <div :class="['w-2.5 h-2.5 rounded-full shrink-0', category.color]"></div>
+            <div :class="['w-2.5 h-2.5 rounded-full shrink-0', (category as any).color]"></div>
             <span class="font-medium text-foreground">{{ category.name }}</span>
           </div>
           
           <div class="flex items-center gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
             <button 
-              @click="openEditModal(category)" 
+              @click.stop="openEditModal(category)" 
               class="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+              title="Editar"
             >
               <Edit2 class="w-4 h-4" />
             </button>
             <button 
-              @click="openDeleteConfirm(category)" 
+              @click.stop="openDeleteConfirm(category)" 
               class="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors"
+              title="Excluir"
             >
               <Trash2 class="w-4 h-4" />
             </button>
