@@ -7,10 +7,8 @@
 <p align="center">
   Uma aplicação fullstack moderna construída com <strong>Vue.js 3</strong> + <strong>Fastify</strong>, focada em gerenciamento de tarefas colaborativas, arquitetura serverless e observabilidade.<br />
   Permite criar, organizar e compartilhar tarefas com múltiplos usuários, acompanhando progresso em tempo real de forma simples e eficiente.<br />
-  <a href="FRONTEND_URL" target="_blank">🚀 Acesse a versão online aqui</a>
+  <a href="https://collab-task-manager-plum.vercel.app/" target="_blank">🚀 Acesse a versão online aqui</a>
 </p>
-
-TODO: Preencher URL 
 
 ---
 
@@ -23,9 +21,7 @@ O projeto está disponível em produção com deploys separados para frontend e 
 
 ### 🔗 URLs
 
-TODO: Preencher URLs
-
-- Frontend: `FRONTEND_URL`
+- Frontend: `https://collab-task-manager-plum.vercel.app/`
 - API: `https://7ma10y8gs0.execute-api.sa-east-1.amazonaws.com/`
 
 ---
@@ -388,12 +384,14 @@ npm test -- src/services/tests
 A aplicação é deployada com o **Serverless Framework** em AWS Lambda.
 
 ```bash
+cd api
 npm run deploy
 ```
 
 Ou manualmente:
 
 ```bash
+cd api
 npx prisma generate
 serverless deploy
 ```
@@ -453,8 +451,8 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Configurar variáveis de ambiente de produção (Secrets)
 - [x] Provisionar banco de dados PostgreSQL (neon.tech)
 - [x] Realizar o deploy da API via `serverless deploy`
-- [ ] Configurar o deploy automático do Frontend na Vercel
-- [ ] Validar a integração entre Frontend (Vercel) e Backend (AWS)
+- [x] Configurar o deploy automático do Frontend na Vercel
+- [x] Validar a integração entre Frontend (Vercel) e Backend (AWS)
 ---
 
 ## 📬 Contato
