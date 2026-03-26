@@ -147,15 +147,26 @@ const handleSave = async () => {
   isSubmitting.value = true
   errorMessage.value = ''
 
-  // Remove strings vazias para não quebrar o Zod
-  const payload: any = {
-    title: taskForm.value.title,
-    description: taskForm.value.description || undefined,
-    status: taskForm.value.status,
-    categoryId: taskForm.value.categoryId === '' ? undefined : taskForm.value.categoryId
-  }
-
   try {
+    const catName = newCategoryName.value.trim()
+    // Salva categoria caso o usuário esqueça de apertar no botão
+    if (isCreatingCategory.value && catName) {
+      await categoryStore.createCategory(catName)
+      const newCat = categoryStore.categories.find(c => c.name.toLowerCase() === catName.toLowerCase())
+      if (newCat) {
+        taskForm.value.categoryId = newCat.id
+      }
+      isCreatingCategory.value = false
+      newCategoryName.value = ''
+    }
+
+    const payload: any = {
+      title: taskForm.value.title,
+      description: taskForm.value.description || undefined,
+      status: taskForm.value.status,
+      categoryId: taskForm.value.categoryId === '' ? undefined : taskForm.value.categoryId
+    }
+
     if (isEditing.value) {
       await taskStore.updateTask(taskForm.value.id, payload)
     } else {
