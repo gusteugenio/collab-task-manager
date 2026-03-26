@@ -102,7 +102,7 @@ A modelagem foi projetada para suportar um ambiente colaborativo, garantindo a r
 
 ### Modelo de Dados (ERD)
 
-<img width="600" height="1000" alt="collab-task-manager-tables" src="https://github.com/user-attachments/assets/bfcbc77a-dc5a-44df-9f6c-09e167168e6a" />
+<img width="600" height="1000" alt="collab-task-manager-tables" src="https://github.com/user-attachments/assets/a24c91ba-8900-4d6c-8480-a940774bad20" />
 
 *Diagrama gerado via Mermaid representando as relações entre Usuários, Tarefas e Categorias.*
 
