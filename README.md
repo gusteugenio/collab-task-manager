@@ -7,7 +7,8 @@
 <p align="center">
   Uma aplicação fullstack moderna construída com <strong>Vue.js 3</strong> + <strong>Fastify</strong>, focada em gerenciamento de tarefas colaborativas, arquitetura serverless e observabilidade.<br />
   Permite criar, organizar e compartilhar tarefas com múltiplos usuários, acompanhando progresso em tempo real de forma simples e eficiente.<br />
-  <a href="https://collab-task-manager-plum.vercel.app/" target="_blank">🚀 Acesse a versão online aqui</a>
+  <a href="https://collab-task-manager-plum.vercel.app/" target="_blank">🚀 Acesse a versão online aqui</a><br />
+  <a href="docs/MANUAL_DO_USUARIO.md">📖 Leia o Manual do Usuário (com telas e fluxos)</a>
 </p>
 
 ---
@@ -94,6 +95,7 @@ Esta arquitetura garante que cada componente é independente e pode ser escalado
 * **Organização em Camadas (Repository & Service)**: A separação entre regras de negócio (Service) e acesso a dados (Repository) melhora a organização do código e facilita a manutenção. Além disso, permite a criação de testes automatizados sem dependência direta do banco de dados.
 * **Atualização Inteligente (Short Polling)**: Para otimizar a comunicação com o frontend, o sistema utiliza o campo `updatedAt` para buscar apenas os dados modificados desde a última requisição. Isso reduz o volume de dados trafegados e a carga no banco, mantendo uma experiência próxima de tempo real com menor custo.
 * **Soft Delete**: As tarefas não são removidas fisicamente do banco ao serem deletadas. Em vez disso, são marcadas como excluídas. Isso garante consistência entre múltiplos usuários conectados, permitindo que o frontend sincronize corretamente a remoção dos dados.
+* **Foco em UX (User Experience) e Onboarding**: Durante o desenvolvimento, realizei testes de usabilidade que motivaram melhorias no fluxo do usuário. Implementei um *Empty State* (Modal de Boas-vindas) para novos usuários no Dashboard, a possibilidade de criar categorias de forma inline (sem sair da tela de criação de tarefas) e navegação Drill-down (clicar na categoria e ir direto para a lista de tarefas filtrada).
 
 ---
 
@@ -110,9 +112,11 @@ Esta arquitetura garante que cada componente é independente e pode ser escalado
 
 ### Extras (Diferenciais)
 - **Colaboração Reativa** com atualizações simulando tempo real via Short Polling (arquitetura otimizada para Serverless)
-- Documentação de endpoints com Swagger/OpenAPI
-- Observabilidade distribuída com OpenTelemetry + Jaeger no desenvolvimento
-- Implementação de um fluxo de sincronização incremental que simula o comportamento de streaming de dados, otimizando o consumo de recursos em ambiente Serverless.
+- **Documentação de endpoints** com Swagger/OpenAPI
+- **Observabilidade distribuída** com OpenTelemetry + Jaeger no desenvolvimento
+- Implementação de um **Fluxo de Sincronização Incremental** que simula o comportamento de streaming de dados, otimizando o consumo de recursos em ambiente Serverless.
+- **UX Avançada no Compartilhamento**: Busca em tempo real de usuários por nome ou e-mail na hora de compartilhar tarefas.
+- **Suporte a Dark Mode**: Interface responsiva com alternância nativa entre tema claro e escuro, garantindo conforto visual e acessibilidade.
 
 ---
 
@@ -430,7 +434,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 
 ### Frontend
 - [x] Setup Vue 3 + Vite + TypeScript
-- [x] Configurar ShadCN-Vue + Tailwind
+- [x] Configurar ShadCN-Vue + Tailwind (com suporte a Dark Mode)
 - [x] Configura Axios
 - [x] Pinia stores (auth, tasks, ui)
 - [x] Configuração do Vue Router (Rotas e Guards de proteção)
@@ -444,6 +448,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Implementação de Short Polling (setInterval) inteligente para sincronização de tarefas, categorias e relatórios
 - [x] Indicador de sincronização visual na interface
 - [x] Feedback visual (loading, erros, sucesso)
+- [x] Refinamentos de UX (Empty States, criação rápida de categorias e busca otimizada de colaboradores)
 
 ### Deploy & DevOps
 - [x] Criar usuário IAM na AWS e configurar `aws-credentials` localmente
