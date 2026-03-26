@@ -30,7 +30,12 @@ export async function authRoutes(app: FastifyInstance) {
       body: loginBodySchema,
       response: {
         200: z.object({
-          token: z.string()
+          token: z.string(),
+          user: z.object({
+            id: z.string(),
+            name: z.string(),
+            email: z.string()
+          })
         }),
         401: ErrorResponse
       }

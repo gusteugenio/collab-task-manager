@@ -67,7 +67,7 @@ describe('AuthController', () => {
       // Mock
       req.body = { email: 'teste@teste.com', password: '123456' }
       
-      jest.spyOn(AuthService.prototype, 'login').mockResolvedValue({ id: 'uuid-123', name: 'Gustavo' } as any)
+      jest.spyOn(AuthService.prototype, 'login').mockResolvedValue({ id: 'uuid-123', name: 'Gustavo', email: 'teste@teste.com' } as any)
       
       req.server.jwt.sign.mockReturnValue('fake-jwt-token')
 
@@ -83,7 +83,14 @@ describe('AuthController', () => {
         { sub: 'uuid-123', expiresIn: '7d' }
       )
       expect(reply.status).toHaveBeenCalledWith(200)
-      expect(reply.send).toHaveBeenCalledWith({ token: 'fake-jwt-token' })
+      expect(reply.send).toHaveBeenCalledWith({ 
+        token: 'fake-jwt-token',
+        user: {
+          id: 'uuid-123',
+          name: 'Gustavo',
+          email: 'teste@teste.com'
+        }
+      })
     })
 
     it('deve retornar 401 se as credenciais forem inválidas', async () => {

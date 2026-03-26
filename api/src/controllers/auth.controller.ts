@@ -41,7 +41,14 @@ export class AuthController {
         { sub: user.id, expiresIn: '7d' }
       )
 
-      return reply.status(200).send({ token })
+      return reply.status(200).send({ 
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        }
+      })
     } catch (error: any) {
       if (error.message === 'Credenciais inválidas.') {
         return reply.status(401).send({ error: error.message })

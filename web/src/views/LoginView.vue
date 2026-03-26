@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import axios from 'axios'
 import { LayoutDashboard, Loader2, AlertCircle } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,8 +23,12 @@ const handleLogin = async () => {
   try {
     await authStore.login({ email: email.value, password: password.value })
     router.push('/dashboard')
-  } catch (error: any) {
-    errorMessage.value = error.response?.data?.error || 'E-mail ou senha incorretos. Tente novamente.'
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      errorMessage.value = error.response?.data?.error || 'E-mail ou senha incorretos. Tente novamente.'
+    } else {
+      errorMessage.value = 'Ocorreu um erro inesperado ao fazer login.'
+    }
   } finally {
     isLoading.value = false
   }

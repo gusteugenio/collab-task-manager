@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
-import { api } from '@/lib/axios'
 import { useAuthStore } from '@/stores/auth'
+import axios from 'axios'
 import { LayoutDashboard, Loader2, AlertCircle } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,17 +22,25 @@ const handleRegister = async () => {
   errorMessage.value = ''
   
   try {
-    await api.post('/auth/register', {
-      name: name.value,
-      email: email.value,
-      password: password.value
+    await authStore.register({ 
+      name: name.value, 
+      email: email.value, 
+      password: password.value 
+    })
+
+    await authStore.login({ 
+      email: email.value, 
+      password: password.value 
     })
     
-    await authStore.login({ email: email.value, password: password.value })
     router.push('/dashboard')
     
-  } catch (error: any) {
-    errorMessage.value = error.response?.data?.error || 'Erro ao criar conta. Verifique os dados e tente novamente.'
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      errorMessage.value = error.response?.data?.error || 'Erro ao criar conta. Verifique os dados e tente novamente.'
+    } else {
+      errorMessage.value = 'Ocorreu um erro inesperado.'
+    }
   } finally {
     isLoading.value = false
   }

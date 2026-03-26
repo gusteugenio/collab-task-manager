@@ -317,8 +317,9 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Pinia stores (auth, tasks, ui)
 - [x] Configuração do Vue Router (Rotas e Guards de proteção)
 - [x] Página de início
-- [ ] Páginas: Login, Registro
-- [ ] Páginas de Dashboard (Relatórios simples com gráficos de progresso)
+- [x] Páginas: Login, Registro
+- [x] Páginas de Dashboard (Relatórios simples com gráficos de progresso)
+- [ ] Listagem e CRUD de categorias
 - [ ] Listagem e CRUD de tarefas
 - [ ] Compartilhamento de tarefas
 - [ ] Filtros e busca
