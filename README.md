@@ -319,7 +319,7 @@ Todo o deploy está configurado para funcionar diretamente com as ferramentas e 
 - [x] Página de início
 - [x] Páginas: Login, Registro
 - [x] Páginas de Dashboard (Relatórios simples com gráficos de progresso)
-- [ ] Listagem e CRUD de categorias
+- [x] Listagem e CRUD de categorias
 - [ ] Listagem e CRUD de tarefas
 - [ ] Compartilhamento de tarefas
 - [ ] Filtros e busca

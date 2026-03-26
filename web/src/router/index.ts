@@ -25,8 +25,25 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('../views/DashboardView.vue'),
+      component: () => import('@/views/DashboardView.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/categories',
+      name: 'categories',
+      component: () => import('@/views/CategoriesView.vue'),
+      meta: { requiresAuth: true }
+    },
+    // {
+    //   path: '/tasks',
+    //   name: 'tasks',
+    //   component: () => import('@/views/TasksView.vue'),
+    //   meta: { requiresAuth: true }
+    // },
+    // redireciona qualquer rota não encontrada pro dashboard
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/dashboard'
     }
   ]
 })

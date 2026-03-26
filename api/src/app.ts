@@ -18,6 +18,8 @@ const frontendUrl = process.env.FRONTEND_URL
 
 app.register(cors, {
   origin: frontendUrl,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 })
 
